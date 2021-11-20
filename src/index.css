@@ -59,3 +59,12 @@ code {
   justify-content: space-around;
   align-items: center;
 }
+
+#start_stop{
+  display: flex;
+}
+
+.buttons-container{
+  margin: 10px;
+  display: flex;
+}
