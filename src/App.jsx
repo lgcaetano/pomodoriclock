@@ -1,10 +1,15 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, React } from "react"
 import LengthSetter from "./LengthSetter"
 import { upperFirstLetter } from "./LengthSetter"
+import Numbers from "./Numbers"
 
 export default function App(){
 
     const [seconds, setSeconds] = useState(60 * 25)
+
+    const [flashToggle, setFlash] = useState(false) 
+
+    const [firstFlag, setFirstFlag] = useState(false)
     
     const [playFlag, setPlayFlag] = useState(false)
     
@@ -12,9 +17,9 @@ export default function App(){
    
     const startTime = useRef(60 * 25)
 
-    const [breakLength, setBreakLength] = useState(5)
+    const [breakLength, setBreakLength] = useState(1)
     
-    const [sessionLength, setSessionLength] = useState(25)
+    const [sessionLength, setSessionLength] = useState(1)
     
     const [mode, setMode] = useState('session')
 
@@ -35,6 +40,8 @@ export default function App(){
 
 
     function toggleMode(){
+      
+        setSeconds(0)
 
         let newStartingTime 
         
@@ -48,6 +55,19 @@ export default function App(){
                 return 'session'
             }
         })
+        
+        if(!firstFlag)
+            setFirstFlag(true)
+        
+
+            
+            
+        setFlash(prevValue => {
+            console.log(!prevValue)
+            return !prevValue
+        })
+
+
         
         audioRef.current.play()
         setSeconds(newStartingTime)
@@ -71,11 +91,11 @@ export default function App(){
         timer.current.push(setInterval(() => {
 
             
-            let secondsPassed = Math.floor((Date.now() - referenceTime.current) / 50)
+            let secondsPassed = Math.floor((Date.now() - referenceTime.current) / 1000)
             let nextSeconds = startTime.current - secondsPassed
             setSeconds(() => nextSeconds)
 
-            if(nextSeconds <= 0){
+            if(nextSeconds < 0){
                 toggleMode()
             }
             
@@ -99,22 +119,22 @@ export default function App(){
         setSeconds(60 * 25)
 
     }
-
-
-
+    useEffect(() =>{ 
+      if(mode == 'session')
+        setSeconds(60 * sessionLength)
+                   }, [sessionLength])
+  
     useEffect(() => {
-        if(mode == 'session')
-            setSeconds(60 * sessionLength)
-        else 
-            setSeconds(60 * breakLength)
-    }, [breakLength, sessionLength])
-
-
-
+      
+      if(mode == 'break')
+         setSeconds(60 * breakLength)
+    }, [breakLength])
 
     let minutes = Math.floor(seconds/60)
     let modSeconds = seconds % 60
 
+    let secondRotation = 360 - (modSeconds * 6)
+    let minutesRotation = 360 - (seconds / 10) 
     return (
         <div className="app">
 
@@ -123,22 +143,40 @@ export default function App(){
 
             <div className="lengths-container">
 
-                <LengthSetter type="session" length={sessionLength} changeLength={setSessionLength}
-                 playing={playFlag} key={Math.random()}></LengthSetter>
-                
                 <LengthSetter type="break" length={breakLength} changeLength={setBreakLength}
-                 playing={playFlag} key={Math.random()}></LengthSetter>
+                 playing={playFlag} ></LengthSetter>
+              
+                <LengthSetter type="session" length={sessionLength} changeLength={setSessionLength}
+                 playing={playFlag} ></LengthSetter>
 
             </div>
 
             <div className="timer-container">
 
+                <div className="center"></div>
+
+                <Numbers></Numbers>
+
+                <div className="handle-container"  style={{ transform: `rotate(${secondRotation}deg)` }}>
+                    <div className="handle second"></div>
+                </div>
+                <div className="handle-container"  style={{ transform: `rotate(${minutesRotation}deg)` }}>
+                    <div className="handle minute"></div>
+                </div>
+
+
                 <div className="timer-label" id="timer-label">{upperFirstLetter(mode)}</div>
-                <h1 className="timer" id="time-left">{`${minutes >= 10 ? "" : "0"}` + minutes}:{`${modSeconds >= 10 ? "" : "0"}` + modSeconds}</h1>
+                <h1 className={`timer`} id=" time-left">
+                    <div className={`time-text-container ${
+                            firstFlag ? (flashToggle ? 'flash-trigger1' : 'flash-trigger2') : ''
+                        }`}>
+                        {`${minutes >= 10 ? "" : "0"}` + minutes}:{`${modSeconds >= 10 ? "" : "0"}` + modSeconds}
+                    </div>
+                </h1>
             
             </div>
 
-            <div className="buttons-container">
+            <div className="buttons-container ">
 
                 <button id="start_stop" onClick={playPause}>    
                     <div className="play" ><i className="fas fa-play"></i></div>

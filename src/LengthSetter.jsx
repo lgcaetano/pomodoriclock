@@ -17,10 +17,12 @@ export default function LengthSetter(props){
 
 
             <div className="length-buttons">
-                <button className={`${props.type}-decrement`} onClick={() => {
-
+                <button id={`${props.type}-decrement`} onClick={() => {
+                    
+                  console.log("CLICK")
+                  
                     if(props.length > 1 && !props.playing)
-                        props.changeLength(props.length - 1)
+                        props.changeLength(prevValue => prevValue - 1)
                         
                     }}>
                     <i className="fas fa-arrow-down"></i>
@@ -28,13 +30,15 @@ export default function LengthSetter(props){
 
                 <div id={`${props.type}-length`}>{props.length}</div>
 
-                <button className={`${props.type}-increment`} onClick={() => {
-
-                    if(props.length < 59 && !props.playing)
-                        props.changeLength(props.length + 1)
+                <button id={`${props.type}-increment`} onClick={() => {
+                  
+                    console.log("CLICK")  
+                  
+                    if(props.length < 60 && !props.playing)
+                        props.changeLength(prevValue => prevValue + 1)
 
                 }}>
-                    <i className="fas fa-arrow-up"></i>
+                    <i className="fas fa-arrow-up"></i>    
                 </button>
             </div>
         </div>

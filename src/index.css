@@ -1,14 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Nova+Square&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+@keyframes flashing{
+  0%{
+    color: red;
+    text-shadow: 0px 0px 5px red;
+  }
+  10%{
+    opacity: 0;
+  }
+  20%{
+    opacity: 1;
+  }
+  30%{
+    opacity: 0;
+  }
+  40%{
+    opacity: 1;
+  }
+  50%{
+    opacity: 0;
+  }
+  60%{
+    opacity: 1;
+  }
+  70%{
+    opacity: 0;
+  }
+  80%{
+    opacity: 1;
+  }
+  90%{
+    opacity: 0;
+    
+  }
+  100%{
+    opacity: 1;
+    color: red;
+    text-shadow: 0px 0px 5px red;
+  }
+}
+
+
+
+
+@keyframes flashing2{
+  0%{
+    color: red;
+    text-shadow: 0px 0px 5px red;
+  }
+  10%{
+    opacity: 0;
+  }
+  20%{
+    opacity: 1;
+  }
+  30%{
+    opacity: 0;
+  }
+  40%{
+    opacity: 1;
+  }
+  50%{
+    opacity: 0;
+  }
+  60%{
+    opacity: 1;
+  }
+  70%{
+    opacity: 0;
+  }
+  80%{
+    opacity: 1;
+  }
+  90%{
+    opacity: 0;
+    
+  }
+  100%{
+    opacity: 1;
+    color: red;
+    text-shadow: 0px 0px 5px red;
+  }
+}
+
+:root{
+  --shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.5);
+  --handle-border: solid 1px white;
+  --text-glow: 0px 0px 5px white;
+}
+
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Nova Square',-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: rgb(44, 91, 151);
+  background: linear-gradient(to right, rgb(40, 40, 40), rgb(20, 20, 20));
   display: flex;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 
 button{
@@ -42,6 +135,15 @@ code {
   flex-direction: column;
 }
 
+.timer-label{
+  background: rgba(20, 30, 30);
+  border-radius: 2px;
+  border: var(--handle-border);
+  padding: 5px;
+  text-shadow: var(--text-glow);
+  
+}
+
 .length-buttons{
   display: flex;
   align-items: center;
@@ -49,15 +151,21 @@ code {
 }
 
 .timer-container{
+  position: relative;
+  z-index: 0;
   box-sizing: border-box;
-  height: 200px;
-  width: 100%;
+  height: 240px;
+  width: 240px;
   padding: 20px;
-  border: 4px solid limegreen;
+  border: 10px solid black;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  background: radial-gradient(rgba(255, 255, 255, 1), rgba(140, 140, 140, 1));
+  border-radius: 50%;
+  box-shadow: 0px 0px 100px 1px white;
+  overflow: hidden;
 }
 
 #start_stop{
@@ -67,4 +175,112 @@ code {
 .buttons-container{
   margin: 10px;
   display: flex;
+}
+
+.handle-container{
+  position: absolute;
+  z-index: 1;
+  height: 100%;
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+
+
+
+.second{
+  width: 2px;
+  height: 60%;
+  background: red;
+  border-radius: 2px;
+  border: var(--handle-border);
+  box-shadow: var(--shadow);
+  z-index: 1;
+}
+
+.minute{
+  width: 4px;
+  height: 40%;
+  position: absolute;
+  top: 10%;
+  background: black;
+  border-radius: 3px;
+  border: var(--handle-border);
+  box-shadow: var(--shadow);
+  z-index: 8;
+}
+
+
+.hour{
+  width: 7px;
+  border: var(--handle-border);
+  height: 30%;
+  position: relative;
+  top:20%;
+  background: black;
+  border-radius: 4px;
+  box-shadow: var(--shadow);
+  z-index: 9;
+}
+
+.center{
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  background: black;
+  border-radius: 50%;
+  border: var(--handle-border);
+  box-shadow: var(--shadow);
+  z-index: 10;
+}
+
+.timer{
+  background: rgba(20, 30, 30);
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  border-radius: 2px;
+  border: var(--handle-border);
+  padding: 5px;
+  text-shadow: var(--text-glow);
+  position: relative;
+  z-index: 0;
+}
+
+.numbers{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.number{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  color: black;
+  text-shadow: 0px 0px 3px black;
+}
+
+.fas{
+  color: white
+}
+
+.flash-trigger1{
+  animation: flashing 5000ms;
+  animation-iteration-count: 1;
+  /* transition: none; */
+}
+
+.flash-trigger2{
+  animation: flashing2 5000ms;
+  animation-iteration-count: 1;
+  /* transition: none; */
+}
+
+.time-text-container{
+  position: relative;
+  z-index: 0;
 }
